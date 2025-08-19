@@ -11,6 +11,6 @@ A simple web application to search for GIFs using the Tenor API with support for
 ![Home Page](screenshots/image1.png)
 
 ### Search Results
-![Search Results](screenshots/image2.png)
+![Search Results](screenshots/image2%20.png)
 
 
