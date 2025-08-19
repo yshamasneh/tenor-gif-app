@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GIF Search • Simple</title>
+  
+
+  <link rel="preconnect" href="https://tenor.googleapis.com">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <section class="Trending">
+    <div class="bar">
+      <input class="q" placeholder="Search (happy, cat, football)" aria-label="Search field">
+      <button class="search primary">Search</button>
+      <button class="trending">Trending</button>
+    </div>
+
+    <div class="status" role="status" aria-live="polite">Start by searching or show trending GIFs.</div>
+    <div class="grid" aria-label="Search results"></div>
+    <div class="sentinel" aria-hidden="true"></div>
+  </section>
+
+  <script>
+    window.TENOR_KEY = "AIzaSyCqsBKeKUgFtgp04aiLaFHKJ4toK1RMzSM";
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>
