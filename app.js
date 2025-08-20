@@ -1,42 +1,45 @@
 // ========= Simple Tenor GIF (Search / Trending / Infinite Scroll) =========
-// Expects window.TENOR_KEY to be defined in HTML before this script
-
 const API_KEY = window.TENOR_KEY;
 const LIMIT = 24;
-const ROOT_MARGIN_PX = 600;      // start preloading before bottom by 600px
-const MAX_AUTO_FILL_PAGES = 3;    // auto-drain a few pages to fill screen on first load
+const ROOT_MARGIN_PX = 600;
+const MAX_AUTO_FILL_PAGES = 3;
 
+// عناصر الواجهة داخل اللوحة
 const $q        = document.querySelector(".q");
 const $grid     = document.querySelector(".grid");
 const $status   = document.querySelector(".status");
 const $search   = document.querySelector(".search");
-const $trending = document.querySelector(".trending"); 
+const $trending = document.querySelector(".trending");
 const $sentinel = document.querySelector(".sentinel");
 
+// الحالة
+const state = {
+  q: "",
+  pos: "",
+  mode: "trending", // 'search' | 'trending'
+  loading: false,
+  done: false,
+  _bootstrapped: false
+};
 
-// Basic guards
+let io = null;
+
 if (!API_KEY) console.warn("TENOR_KEY is missing. Set window.TENOR_KEY before app.js.");
 const required = [$q, $grid, $status, $search, $trending, $sentinel];
 if (required.some(el => !el)) {
-  throw new Error("Missing required DOM elements (.q,.grid,.status,.search,.trending,.sentinel).");
+  throw new Error("Missing required DOM elements (.q, .grid, .status, .search, .trending, .sentinel).");
 }
 
-// App state
-const state = {
-  q: "",             // current search term
-  pos: "",           // Tenor pagination cursor
-  mode: "trending",  // 'search' | 'trending'
-  loading: false,
-  done: false
-};
-
-// Helpers
+// ===== Helpers =====
 function setStatus(msg) { $status.textContent = msg || ""; }
-function clearGrid() { $grid.innerHTML = ""; }
+function clearGrid() { $grid.innerHTML = ""; $grid.appendChild($sentinel); } // حافظ على السنتينل داخل الجريد
+
+// ✅ فحص الوصول لقاع الجريد (مش نافذة المتصفح)
 function sentinelOnScreen() {
-  const r = $sentinel.getBoundingClientRect();
-  return r.top <= window.innerHeight + ROOT_MARGIN_PX;
+  const remaining = $grid.scrollHeight - $grid.scrollTop - $grid.clientHeight;
+  return remaining <= ROOT_MARGIN_PX;
 }
+
 function appendGifs(items) {
   const frag = document.createDocumentFragment();
   for (const it of items) {
@@ -48,17 +51,15 @@ function appendGifs(items) {
     img.alt = it.title || "";
     frag.appendChild(img);
   }
-  $grid.appendChild(frag);
+  // أضف قبل السنتينل ليبقى السنتينل آخر عنصر
+  $grid.insertBefore(frag, $sentinel);
 }
 
-// API
+// ===== API =====
 async function fetchGifs({ q, pos, mode }) {
-  const base =
-  mode === "search"
+  const base = mode === "search"
     ? "https://tenor.googleapis.com/v2/search"
     : "https://tenor.googleapis.com/v2/featured";
-
-
 
   const params = new URLSearchParams({ key: API_KEY, limit: String(LIMIT) });
 
@@ -89,7 +90,7 @@ async function fetchGifs({ q, pos, mode }) {
   };
 }
 
-// Load page(s)
+// ===== Load =====
 async function load({ reset = false } = {}) {
   if (state.loading || state.done) return;
 
@@ -121,11 +122,10 @@ async function load({ reset = false } = {}) {
 
       pagesFetched += 1;
 
-      // Auto-fill screen on first loads if sentinel is still on screen
+      // ✅ Auto-fill بناءً على سكرول الجريد
       if (!(sentinelOnScreen() && pagesFetched < MAX_AUTO_FILL_PAGES)) {
         break;
       }
-      // Allow browser to paint before next page
       await new Promise(requestAnimationFrame);
     } while (true);
 
@@ -136,7 +136,23 @@ async function load({ reset = false } = {}) {
     state.loading = false;
   }
 }
-// UI events
+
+// ===== IO control (يراقب السنتينل داخل الجريد) =====
+function startIO(){
+  if (io) return;
+  io = new IntersectionObserver(
+    (entries) => { if (entries[0].isIntersecting) load(); },
+    { root: $grid, rootMargin: `${ROOT_MARGIN_PX}px` } // ✅ root هو الجريد
+  );
+  io.observe($sentinel);
+}
+function stopIO(){
+  if (!io) return;
+  io.disconnect();
+  io = null;
+}
+
+// ===== UI events =====
 $search.addEventListener("click", () => {
   state.q = $q.value.trim();
   state.mode = state.q ? "search" : "trending";
@@ -154,15 +170,44 @@ $q.addEventListener("keydown", (e) => {
   if (e.key === "Enter") $search.click();
 });
 
-// Infinite scroll
-const io = new IntersectionObserver(
-  (entries) => { if (entries[0].isIntersecting) load(); },
-  { rootMargin: `${ROOT_MARGIN_PX}px` }
-);
-io.observe($sentinel);
+// ===== Toggle panel =====
+(function(){
+  const $toggle = document.getElementById('gif-toggle');
+  const $panel  = document.getElementById('gif-panel');
 
-// Initial load
-load({ reset: true });
+  function openPanel(){
+    $panel.hidden = false;
+    $panel.classList.remove('fly-out');
+    void $panel.offsetWidth;
+    $panel.classList.add('fly-in');
+    $toggle.setAttribute('aria-expanded', 'true');
 
-// Optional cleanup
-window.addEventListener("beforeunload", () => io.disconnect());
+    if (!state._bootstrapped) {
+      state._bootstrapped = true;
+      load({ reset: true }); // أول فتح فقط
+    }
+    startIO();
+  }
+
+  function closePanel(){
+    $panel.classList.remove('fly-in');
+    $panel.classList.add('fly-out');
+    $toggle.setAttribute('aria-expanded', 'false');
+
+    stopIO();
+
+    $panel.addEventListener('animationend', function onEnd(){
+      $panel.hidden = true;
+      $panel.removeEventListener('animationend', onEnd);
+    }, { once: true });
+  }
+
+  $toggle.addEventListener('click', () => {
+    if ($panel.hidden) openPanel(); else closePanel();
+  });
+})();
+
+// تنظيف
+window.addEventListener("beforeunload", () => stopIO());
+
+// ملاحظة: لا يوجد Initial load خارج فتح اللوحة

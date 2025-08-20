@@ -1,25 +1,53 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GIF Search • Simple</title>
-  
 
-  <link rel="preconnect" href="https://tenor.googleapis.com">
-  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://tenor.googleapis.com" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <section class="Trending">
+
+  <!-- زر GIF -->
+  <button id="gif-toggle"
+          class="icon-btn gif-toggle"
+          aria-controls="gif-panel"
+          aria-expanded="false"
+          title="Open GIF search"
+          aria-label="Open GIF search">
+    <img src="gif-icon.jpg" alt="GIF icon" />
+  </button>
+
+  <!-- زر الكاميرا -->
+  <button id="camera-toggle"
+          class="icon-btn camera"
+          aria-controls="camera-panel"
+          aria-expanded="false"
+          title="Open camera"
+          aria-label="Open camera">
+    <img src="camera-icon.jpg" alt="Camera icon" />
+  </button>
+
+
+
+
+  <!-- لوحة GIF -->
+  <section id="gif-panel" class="Trending" hidden>
     <div class="bar">
-      <input class="q" placeholder="Search (happy, cat, football)" aria-label="Search field">
+      <input class="q" placeholder="Search (happy, cat, football)" aria-label="Search field" />
       <button class="search">Search</button>
       <button class="trending">Trending</button>
     </div>
 
-    <div class="status" role="status" aria-live="polite">Start by searching or show trending GIFs.</div>
-    <div class="grid" aria-label="Search results"></div>
-    <div class="sentinel"></div>
+    <div class="status" role="status" aria-live="polite">
+      Start by searching or show trending GIFs.
+    </div>
+
+    <div class="grid" aria-label="Search results">
+      <div class="sentinel" aria-hidden="true"></div>
+    </div>
   </section>
 
   <script>
