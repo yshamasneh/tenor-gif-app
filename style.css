@@ -11,8 +11,6 @@ body{
 }
 img{max-width:100%;display:block;border-radius:10px;}
 
-/* CONTAINER */
-
 .bar{
   display:flex;gap:10px;flex-wrap:wrap;align-items:center;
   background:rgba(255,255,255,.05);padding:12px;border-radius:12px;

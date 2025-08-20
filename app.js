@@ -18,7 +18,7 @@ const $sentinel = document.querySelector(".sentinel");
 if (!API_KEY) console.warn("TENOR_KEY is missing. Set window.TENOR_KEY before app.js.");
 const required = [$q, $grid, $status, $search, $trending, $sentinel];
 if (required.some(el => !el)) {
-  throw new Error("Missing required DOM elements (#q, #grid, #status, #search, #trending, #sentinel).");
+  throw new Error("Missing required DOM elements (.q,.grid,.status,.search,.trending,.sentinel).");
 }
 
 // App state
