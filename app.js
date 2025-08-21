@@ -32,9 +32,9 @@ if (required.some(el => !el)) {
 
 // ===== Helpers =====
 function setStatus(msg) { $status.textContent = msg || ""; }
-function clearGrid() { $grid.innerHTML = ""; $grid.appendChild($sentinel); } // حافظ على السنتينل داخل الجريد
+function clearGrid() { $grid.innerHTML = ""; $grid.appendChild($sentinel); } 
 
-// ✅ فحص الوصول لقاع الجريد (مش نافذة المتصفح)
+
 function sentinelOnScreen() {
   const remaining = $grid.scrollHeight - $grid.scrollTop - $grid.clientHeight;
   return remaining <= ROOT_MARGIN_PX;

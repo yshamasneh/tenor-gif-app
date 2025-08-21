@@ -63,21 +63,24 @@ body{font-family:'Segoe UI','Cairo',sans-serif;background:var(--bg);color:var(--
   object-fit: contain;
   pointer-events: none;
 }
-/* الشكل العام للأزرار */
+
 .icon-btn {
-  position: fixed;          /* يخلي الزر ثابت */
-  left: 16px;               /* على الشمال */
+  position: fixed;          
+  left: 16px;              
   width: 48px;
   height: 48px;
   border: none;
-  border-radius: 50%;       /* يخليها دائرية */
+  border-radius: 50%;      
   display: grid;
-  place-items: center;      /* يوسّط الصورة */
-  background: #1c2541;      /* خلفية غامقة */
+  place-items: center;      
+  background: #1c2541;      
   box-shadow: 0 8px 20px rgba(0,0,0,.35);
   cursor: pointer;
 }
 
+.h1{
+
+}
 
 .icon-btn img {
   width: 60%;
@@ -86,12 +89,12 @@ body{font-family:'Segoe UI','Cairo',sans-serif;background:var(--bg);color:var(--
   pointer-events: none;    
 }
 
-/* أماكن الأزرار */
-.gif-toggle { bottom: 16px; }         /* زر GIF */
-.icon-btn.camera { bottom: 72px; }    /* زر الكاميرا فوقه */
-.icon-btn.studio { bottom: 128px; }   /* زر الاستوديو فوق الكاميرا */
 
-/* تأثير hover */
+.gif-toggle { bottom: 16px; }         
+.icon-btn.camera { bottom: 72px; }    
+.icon-btn.studio { bottom: 128px; }   
+
+
 .icon-btn:hover {
   filter: brightness(1.1);
 }
