@@ -77,11 +77,6 @@ body{font-family:'Segoe UI','Cairo',sans-serif;background:var(--bg);color:var(--
   box-shadow: 0 8px 20px rgba(0,0,0,.35);
   cursor: pointer;
 }
-
-.h1{
-
-}
-
 .icon-btn img {
   width: 60%;
   height: 60%;
