@@ -3,7 +3,7 @@
   --glass: rgba(255,255,255,.06); --glass-border: rgba(255,255,255,.12);
   --shadow: 0 16px 40px rgba(0,0,0,.45);
 }
-*{margin:0;padding:0;box-sizing:border-box;}
+*{margin:0;padding:0;box-sizing: content-box;}
 body{font-family:'Segoe UI','Cairo',sans-serif;background:var(--bg);color:var(--txt);min-height:100dvh;}
 
 
@@ -20,9 +20,9 @@ body{font-family:'Segoe UI','Cairo',sans-serif;background:var(--bg);color:var(--
 
 #gif-panel{
   position: fixed; left: 0; bottom: 72px; z-index: 9998;
-  width: min(900px, 96vw); background: rgba(28,37,65,.98);
-  color: var(--txt); border: 1px solid var(--glass-border);
-  border-radius: 14px; box-shadow: var(--shadow); padding: 16px;
+  width: min(900px, 96vw); background: rgba(116,114,100,1);
+  color: var(--txt); border: 2px solid var(--glass-border);
+  border-radius: 20px; box-shadow: var(--shadow); padding: 16px;
 }
 
 
@@ -35,7 +35,7 @@ body{font-family:'Segoe UI','Cairo',sans-serif;background:var(--bg);color:var(--
 .bar{
   display:flex; gap:10px; flex-wrap:wrap; align-items:center;
   background: var(--glass); border:1px solid var(--glass-border);
-  padding:12px; border-radius:12px; margin-bottom:12px;
+  padding:9px; border-radius:12px; margin-bottom:12px;
 }
 .q{
   flex:1; min-width:200px; padding:10px; border-radius:8px; color:var(--txt);
