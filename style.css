@@ -87,7 +87,7 @@ body{font-family:'Segoe UI','Cairo',sans-serif;background:var(--bg);color:var(--
 
 .gif-toggle { bottom: 16px; }         
 .icon-btn.camera { bottom: 72px; }    
-.icon-btn.studio { bottom: 128px; }   
+   
 
 
 .icon-btn:hover {
