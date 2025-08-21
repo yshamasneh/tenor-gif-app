@@ -4,7 +4,7 @@ const LIMIT = 24;
 const ROOT_MARGIN_PX = 600;
 const MAX_AUTO_FILL_PAGES = 3;
 
-// عناصر الواجهة داخل اللوحة
+
 const $q        = document.querySelector(".q");
 const $grid     = document.querySelector(".grid");
 const $status   = document.querySelector(".status");
@@ -12,11 +12,11 @@ const $search   = document.querySelector(".search");
 const $trending = document.querySelector(".trending");
 const $sentinel = document.querySelector(".sentinel");
 
-// الحالة
+
 const state = {
   q: "",
   pos: "",
-  mode: "trending", // 'search' | 'trending'
+  mode: "trending", 
   loading: false,
   done: false,
   _bootstrapped: false
@@ -51,7 +51,7 @@ function appendGifs(items) {
     img.alt = it.title || "";
     frag.appendChild(img);
   }
-  // أضف قبل السنتينل ليبقى السنتينل آخر عنصر
+  
   $grid.insertBefore(frag, $sentinel);
 }
 
@@ -122,7 +122,7 @@ async function load({ reset = false } = {}) {
 
       pagesFetched += 1;
 
-      // ✅ Auto-fill بناءً على سكرول الجريد
+      
       if (!(sentinelOnScreen() && pagesFetched < MAX_AUTO_FILL_PAGES)) {
         break;
       }
@@ -137,12 +137,12 @@ async function load({ reset = false } = {}) {
   }
 }
 
-// ===== IO control (يراقب السنتينل داخل الجريد) =====
+
 function startIO(){
   if (io) return;
   io = new IntersectionObserver(
     (entries) => { if (entries[0].isIntersecting) load(); },
-    { root: $grid, rootMargin: `${ROOT_MARGIN_PX}px` } // ✅ root هو الجريد
+    { root: $grid, rootMargin: `${ROOT_MARGIN_PX}px` } 
   );
   io.observe($sentinel);
 }
@@ -184,7 +184,7 @@ $q.addEventListener("keydown", (e) => {
 
     if (!state._bootstrapped) {
       state._bootstrapped = true;
-      load({ reset: true }); // أول فتح فقط
+      load({ reset: true }); 
     }
     startIO();
   }
@@ -207,7 +207,7 @@ $q.addEventListener("keydown", (e) => {
   });
 })();
 
-// تنظيف
+
 window.addEventListener("beforeunload", () => stopIO());
 
-// ملاحظة: لا يوجد Initial load خارج فتح اللوحة
+
