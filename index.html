@@ -10,43 +10,27 @@
 </head>
 <body>
 
-  
-  <button id="gif-toggle"
-          class="icon-btn gif-toggle"
-          aria-controls="gif-panel"
-          aria-expanded="false"
-          title="Open GIF search"
-          aria-label="Open GIF search">
+  <!-- زر فتح GIF -->
+  <button class="icon-btn gif-toggle" title="Open GIF search">
     <img src="gif-icon.jpg" alt="GIF icon" />
   </button>
 
- 
-  <button id="camera-toggle"
-          class="icon-btn camera"
-          aria-controls="camera-panel"
-          aria-expanded="false"
-          title="Open camera"
-          aria-label="Open camera">
+  <!-- زر الكاميرا -->
+  <button class="icon-btn camera-toggle" title="Open camera">
     <img src="camera-icon.jpg" alt="Camera icon" />
   </button>
 
-
-
-
- 
-  <section id="gif-panel" class="Trending" hidden>
+  <!-- لوحة GIF -->
+  <section class="gif-panel hidden">
     <div class="bar">
-      <input class="q" placeholder="Search (happy, cat, football)" aria-label="Search field" />
-      <button class="search">Search</button>
+      <input class="q" placeholder="Search (happy, cat, football)" />
       <button class="trending">Trending</button>
     </div>
 
-    <div class="status" role="status" aria-live="polite">
-      Start by searching or show trending GIFs.
-    </div>
+    <div class="status">Start by searching or show trending GIFs.</div>
 
-    <div class="grid" aria-label="Search results">
-      <div class="sentinel" aria-hidden="true"></div>
+    <div class="grid">
+      <div class="sentinel"></div>
     </div>
   </section>
 

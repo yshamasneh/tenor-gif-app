@@ -1,95 +1,88 @@
-:root{
-  --bg:#0b132b; --txt:#e6eef7; --dim:#a9b6c7; --accent:#4cc9f0;
-  --glass: rgba(255,255,255,.06); --glass-border: rgba(255,255,255,.12);
-  --shadow: 0 16px 40px rgba(0,0,0,.45);
-}
-*{margin:0;padding:0;box-sizing: content-box;}
-body{font-family:'Segoe UI','Cairo',sans-serif;background:var(--bg);color:var(--txt);min-height:100dvh;}
-
-
-.gif-toggle{
-  position: fixed; left: 16px; bottom: 16px; z-index: 9999;
-  width: 44px; height: 44px; border: none; border-radius: 50%;
-  display: grid; place-items: center; cursor: pointer;
-  background: #1c2541; color: var(--txt);
-  box-shadow: 0 8px 20px rgba(0,0,0,.35);
-}
-.gif-toggle:hover{ filter: brightness(1.1); }
-.gif-toggle:focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
-
-
-#gif-panel{
-  position: fixed; left: 0; bottom: 72px; z-index: 9998;
-  width: min(900px, 96vw); background: rgba(116,114,100,1);
-  color: var(--txt); border: 2px solid var(--glass-border);
-  border-radius: 20px; box-shadow: var(--shadow); padding: 16px;
+body {
+  background: #0b132b; /* Dark background */
 }
 
-
-@keyframes flyInLeft { from{transform:translateX(-16px);opacity:0} to{transform:translateX(0);opacity:1} }
-@keyframes flyOutLeft{ from{transform:translateX(0);opacity:1} to{transform:translateX(-16px);opacity:0} }
-#gif-panel.fly-in{ animation: flyInLeft .25s ease-out; }
-#gif-panel.fly-out{ animation: flyOutLeft .2s ease-in; }
-
-
-.bar{
-  display:flex; gap:10px; flex-wrap:wrap; align-items:center;
-  background: var(--glass); border:1px solid var(--glass-border);
-  padding:9px; border-radius:12px; margin-bottom:12px;
-}
-.q{
-  flex:1; min-width:200px; padding:10px; border-radius:8px; color:var(--txt);
-  border:1px solid var(--glass-border); background:#1c2541;
-}
-.q::placeholder{ color: var(--dim); }
-.search,.trending{
-  padding:10px 16px; border:none; border-radius:8px; cursor:pointer;
-  background:#3a506b; color:var(--txt);
-}
-.search:hover,.trending:hover{ filter:brightness(1.1); }
-
-.status{ margin:8px 0 12px; color:var(--dim); min-height:1.2em; }
-
-.grid{
-  display:grid; grid-template-columns: repeat(auto-fill, minmax(140px,1fr));
-  gap:10px; max-height: 60vh; overflow:auto; padding-right:4px;
-  border-radius: 10px;
-}
-.grid img{ width:100%; height:100%; object-fit:cover; border-radius:10px; display:block; }
-.sentinel{ height: 1px; }
-.gif-toggle img{
-  width: 60%;  
-  height: 60%;
-  object-fit: contain;
-  pointer-events: none;
-}
-
+/* --- Floating Icon Buttons (GIF, Camera) --- */
 .icon-btn {
-  position: fixed;          
-  left: 16px;              
-  width: 48px;
-  height: 48px;
-  border: none;
-  border-radius: 50%;      
-  display: grid;
-  place-items: center;      
-  background: #1c2541;      
-  box-shadow: 0 8px 20px rgba(0,0,0,.35);
-  cursor: pointer;
+  position: fixed; left: 16px;
+  width: 40px; height: 40px;
+  border: none; border-radius: 50%;
+  display: grid; place-items: center;
+  background: #1c2541; cursor: pointer;
+  z-index: 10000;
 }
+.gif-toggle { bottom: 16px; }     /* GIF button position */
+.camera-toggle { bottom: 64px; }  /* Camera button position */
+
 .icon-btn img {
-  width: 60%;
-  height: 60%;
-  object-fit: contain;
-  pointer-events: none;    
+  width: 60%; height: 60%;
+  object-fit: contain; pointer-events: none;
 }
 
-
-.gif-toggle { bottom: 16px; }         
-.icon-btn.camera { bottom: 72px; }    
-   
-
-
-.icon-btn:hover {
-  filter: brightness(1.1);
+/* --- GIF Panel --- */
+.gif-panel {
+  width: min(1000px, 45vw);
+  background: #1c2541;
+  border: 1px solid rgb(146,163,220);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(103,149,224,0.45);
+  padding: 20px;
+  transition: opacity .25s ease, transform .25s ease;
+  display: flex; flex-direction: column;
+  max-height: 75vh; overflow: hidden;
 }
+.hidden { display: none !important; }
+
+/* --- Fly-in/out animations --- */
+@keyframes flyInLeft {
+  from { transform: translateX(-16px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+@keyframes flyOutLeft {
+  from { transform: translateX(0); opacity: 1; }
+  to   { transform: translateX(-16px); opacity: 0; }
+}
+.gif-panel.fly-in { animation: flyInLeft .25s ease-out; }
+.gif-panel.fly-out { animation: flyOutLeft .2s ease-in; }
+
+/* --- Toolbar --- */
+.bar {
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+  background: rgba(146,163,220,0.5);
+  border: 0.1px solid rgba(95,76,240,0.6);
+  padding: 9px; border-radius: 12px; margin-bottom: -25px;
+}
+
+/* --- Search Input --- */
+.q {
+  flex: 1; min-width: 200px;
+  padding: 10px; border-radius: 20px;
+  color: #e6eef7; border: 1px solid rgba(255,255,255,.12);
+  background: #1c2541;
+}
+.q::placeholder { color: #a9b6c7; }
+
+/* --- Trending Button --- */
+.trending {
+  padding: 10px 16px; border: none; border-radius: 8px; cursor: pointer;
+  background: #3a506b; color: #e6eef7; transition: filter .2s ease;
+}
+
+/* --- Status Message --- */
+.status {
+  margin: 8px 0 12px; color: #a9b6c7; min-height: 1.2em;
+}
+
+/* --- GIF Grid --- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px; max-height: 60vh; overflow: auto;
+  padding-right: 4px; border-radius: 10px; flex: 1;
+}
+.grid img {
+  width: 100%; height: 140px;
+  object-fit: cover; border-radius: 10px; display: block;
+}
+
+.sentinel { height: 1px; } /* Scroll trigger element */
