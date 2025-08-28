@@ -86,7 +86,7 @@ async function fetchGifs({ q, pos, mode }) {
   const res = await fetch(`${base}?${params.toString()}`, { signal: aborter.signal });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-  const data = await res.data();
+  const data = await res.json();
   const results = Array.isArray(data.results) ? data.results : [];
 
   return {
